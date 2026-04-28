@@ -94,7 +94,11 @@ app.use(
   })
 );
 
+// old route (keep it)
 app.use("/api/v1/auth", authRouter);
+
+// ✅ new route (add this line)
+app.use("/auth", authRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/order", orderRouter);
