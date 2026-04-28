@@ -1,28 +1,24 @@
-import { config } from "dotenv";
 import pkg from "pg";
-const { Client } = pkg;
+import { config } from "dotenv";
+const { Pool } = pkg;
 
 config();
 
-const database = new Client({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
+const isProduction = process.env.NODE_ENV === "production";
 
-    // ✅ ADD THIS
-    ssl: {
-        rejectUnauthorized: false
-    }
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: isProduction
+        ? { rejectUnauthorized: false } // ✅ for Neon / Render
+        : false // ✅ for local PostgreSQL
 });
 
-try {
-    await database.connect();
-    console.log("database connected successfully");
-} catch (error) {
-    console.error("database connection failed:", error);
-    process.exit(1);
-}
+pool.on("connect", () => {
+    console.log("✅ database connected successfully");
+});
 
-export default database;
+pool.on("error", (err) => {
+    console.error("❌ DB error:", err);
+});
+
+export default pool;
