@@ -18,7 +18,18 @@ config();
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
+    origin: function (origin, callback) {
+      const allowedOrigins = [
+        "https://ecommerce-ai-base-webapp1.netlify.app",
+        "http://localhost:5173"
+      ];
+
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
