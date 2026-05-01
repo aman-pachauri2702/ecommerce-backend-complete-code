@@ -20,19 +20,8 @@ app.use(
   cors({
     origin: [
       "https://ecommerce-admin-dashboard-cwz3.netlify.app",
-      "http://localhost:5173"
+      "http://localhost:5173",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
-
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
