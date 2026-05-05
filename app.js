@@ -18,11 +18,7 @@ config();
 
 app.use(
   cors({
-    origin: [
-  "https://ecommerce-admin-dashboard-cwz3.netlify.app",
-  "https://ecommerce-ai-base-webapp1.netlify.app", // ✅ ADD THIS
-  "http://localhost:5173",
-],
+  origin:[process.env.FRONTEND_URL,process.env.DASHBOARD_URL],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
